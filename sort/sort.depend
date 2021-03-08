@@ -1,0 +1,11 @@
+# depslib dependency file v1.0
+1615221695 source:c:\users\diana\desktop\sort\main.cpp
+	<iostream>
+	<vector>
+	<cstdlib>
+	<chrono>
+	<math.h>
+	<algorithm>
+	<fstream>
+	<cstring>
+
