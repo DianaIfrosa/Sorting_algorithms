@@ -403,8 +403,25 @@ void Sort(int n,unsigned int nrmax, vector <unsigned int> &v)
     {
         aux=v;
         if(i==0) fout<<"MergeSort:\n";
-        else if (i==2) fout<<"QuickSort-median of three pivot:\n";
-        else fout<<"QuickSort-random pivot:\n";
+        else if (i==2)
+        {
+            fout<<"QuickSort-median of three pivot:\n";
+            if(nrmax<=5)
+            {
+                fout<<"These numbers can't be sorted!\n\n";
+                continue;
+            }
+        }
+        else
+        {
+            fout<<"QuickSort-random pivot:\n";
+            if(nrmax<=5)
+            {
+                fout<<"These numbers can't be sorted!\n\n";
+                continue;
+            }
+
+        }
 
         auto start = chrono::high_resolution_clock::now();
         sorts2[i](0,n-1,aux);
@@ -419,12 +436,16 @@ void Sort(int n,unsigned int nrmax, vector <unsigned int> &v)
         fout << "Elapsed time in milliseconds: "
              << duration.count()<<" ms\n\n";
     }
+    aux.clear();
+    aux.shrink_to_fit();
 
 }
 bool VerifyInput(char a[], char b[])
 {
     if(strlen(a)>10) return 0;
     if(strlen(b)>10) return 0;
+    //only positive input
+    if(!isdigit(a[0]) || !isdigit(b[0])) return 0;
 
     unsigned long long int A=0, B=0;
     for(int i=0; i<strlen(a); i--)
@@ -479,6 +500,8 @@ int main()
             }
 
             Transfer(inputN, inputNRMAX, n,nrmax);
+            v.clear();
+            v.shrink_to_fit();
             ///Numbers can be generated with :
             GenerateRandom(n,nrmax,v); //random numbers up to nrmax, and nrmax in the middle
             ///or
@@ -487,8 +510,6 @@ int main()
             fout<<"Sorting algorithms for n= "<<n<<" and nrmax= "<<nrmax<<":\n\n";
             Sort(n,nrmax,v);
 
-            v.clear();
-
             continue;
 
         }
@@ -496,6 +517,7 @@ int main()
         {
 
             v.clear();
+            v.shrink_to_fit();
             fout<<"These numbers can't be sorted!\n";
             continue;
 
