@@ -8,4 +8,4 @@ Sorting algorithms (code)  and their time complexity in C++
 •	BubbleSort: O(n^2) and O(n) for already sorted numbers;
 •	MergeSort: O(nlogn) but is slower than QuickSort in general terms.
 •	ShellSort (with gap reduced by half in every iteration): O(n^2)
- and ShellSort2 (with gap calculated with the formula 2*[N/22k+1]+1): O(N3/2) 
+ and ShellSort2 (with gap calculated with the formula 2*[N/22k+1]+1): O(N3/2).
