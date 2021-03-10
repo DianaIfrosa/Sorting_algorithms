@@ -433,7 +433,7 @@ void Sort(int n,unsigned int nrmax, vector <unsigned int> &v)
          << duration.count()<<" ms\n\n";
 
 
-    for (int i=0; i<6; i++)
+    for (int i=1; i<6; i++)
     {
         aux=v;
         auto start = chrono::high_resolution_clock::now();
