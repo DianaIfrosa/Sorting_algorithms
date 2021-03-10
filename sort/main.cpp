@@ -82,6 +82,7 @@ int PivotRandom(int left, int right,vector <unsigned int> &v)
 
     piv=rand()%(right-left+1)+left;
     swap(v[left],v[piv]);   //move the pivot first
+
     piv=left;
 
     index=left+1;
@@ -378,24 +379,36 @@ void RadixSort10(int n,unsigned int nrmax, vector <unsigned int> &v)
 
 void Sort(int n,unsigned int nrmax, vector <unsigned int> &v)
 {
-    vector <unsigned int> aux(n);
+    vector <unsigned int> aux(n),sorted(n);
 
-    for (int i=0; i<6; i++)
+    ///Standard STL Sort
+    sorted=v;
+    auto start = chrono::high_resolution_clock::now();
+    sorts1[0](n,nrmax,sorted);
+    auto stop = chrono::high_resolution_clock::now();
+    fout<<"Sorted: YES\n";
+    auto duration=chrono::duration_cast<chrono::milliseconds>(stop-start);
+        fout << "Elapsed time in milliseconds: "
+             << duration.count()<<" ms\n\n";
+
+
+    for (int i=1; i<6; i++)
     {
         aux=v;
         auto start = chrono::high_resolution_clock::now();
         sorts1[i](n,nrmax,aux);
         auto stop = chrono::high_resolution_clock::now();
 
-        fout<<"Sorted: ";
-        if(Correct_Sort(n,aux))
-            fout<<"YES\n";
-        else
-            fout<<"NO\n";
+        if(aux==sorted)///check if elements are the same
+            {fout<<"Sorted: YES\n";
+             auto duration=chrono::duration_cast<chrono::milliseconds>(stop-start);
+             fout << "Elapsed time in milliseconds: "
+                    << duration.count()<<" ms\n\n";
 
-        auto duration=chrono::duration_cast<chrono::milliseconds>(stop-start);
-        fout << "Elapsed time in milliseconds: "
-             << duration.count()<<" ms\n\n";
+            }
+        else
+            fout<<"These numbers can't be sorted!\n\n";
+
 
     }
     //for MergeSort and QuickSortRandom and QuickSort_MedianOf3
@@ -406,7 +419,7 @@ void Sort(int n,unsigned int nrmax, vector <unsigned int> &v)
         else if (i==2)
         {
             fout<<"QuickSort-median of three pivot:\n";
-            if(nrmax<=5)
+            if(nrmax<=5 && n>=90000)
             {
                 fout<<"These numbers can't be sorted!\n\n";
                 continue;
@@ -415,7 +428,7 @@ void Sort(int n,unsigned int nrmax, vector <unsigned int> &v)
         else
         {
             fout<<"QuickSort-random pivot:\n";
-            if(nrmax<=5)
+            if(nrmax<=5 && n>=90000)
             {
                 fout<<"These numbers can't be sorted!\n\n";
                 continue;
@@ -427,24 +440,27 @@ void Sort(int n,unsigned int nrmax, vector <unsigned int> &v)
         sorts2[i](0,n-1,aux);
         auto stop = chrono::high_resolution_clock::now();
 
-        fout<<"Sorted: ";
-        if(Correct_Sort(n,aux))
-            fout<<"YES\n";
+        if(aux==sorted) //check if elements are the same
+            {fout<<"Sorted: YES\n";
+             auto duration=chrono::duration_cast<chrono::milliseconds>(stop-start);
+             fout << "Elapsed time in milliseconds: "
+                    << duration.count()<<" ms\n\n";
+
+            }
         else
-            fout<<"NO\n";
-        auto duration=chrono::duration_cast<chrono::milliseconds>(stop-start);
-        fout << "Elapsed time in milliseconds: "
-             << duration.count()<<" ms\n\n";
+            fout<<"These numbers can't be sorted!\n\n";
     }
     aux.clear();
     aux.shrink_to_fit();
+
+    sorted.clear();
+    sorted.shrink_to_fit();
 
 }
 bool VerifyInput(char a[], char b[])
 {
     if(strlen(a)>10) return 0;
     if(strlen(b)>10) return 0;
-    //only positive input
     if(!isdigit(a[0]) || !isdigit(b[0])) return 0;
 
     unsigned long long int A=0, B=0;
@@ -502,6 +518,7 @@ int main()
             Transfer(inputN, inputNRMAX, n,nrmax);
             v.clear();
             v.shrink_to_fit();
+
             ///Numbers can be generated with :
             GenerateRandom(n,nrmax,v); //random numbers up to nrmax, and nrmax in the middle
             ///or
@@ -509,6 +526,7 @@ int main()
 
             fout<<"Sorting algorithms for n= "<<n<<" and nrmax= "<<nrmax<<":\n\n";
             Sort(n,nrmax,v);
+
 
             continue;
 
