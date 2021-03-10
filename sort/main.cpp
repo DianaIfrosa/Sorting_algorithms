@@ -17,8 +17,8 @@ typedef void(*array_pointers2) (int a, int b, vector <unsigned int> &c);
 void BubbleSort(int n, unsigned int nrmax, vector <unsigned int> &v);
 void ShellSort(int n,unsigned int nrmax, vector <unsigned int> &v);
 void ShellSort2(int n,unsigned int nrmax, vector <unsigned int> &v);
-void RadixSort10(int n,unsigned int nrmax, vector <unsigned int> &v);
-void RadixSort2(int n, unsigned int nrmax, vector <unsigned int> &v);
+void RadixSort1024(int n,unsigned int nrmax, vector <unsigned int> &v);
+void RadixSort256(int n, unsigned int nrmax, vector <unsigned int> &v);
 void StandardSort(int n, unsigned int nrmax, vector <unsigned int> &v);
 
 void QuickSort_Random(int left,int right, vector <unsigned int> &v);
@@ -27,7 +27,7 @@ void MergeSort(int left, int right, vector <unsigned int> &v);
 
 array_pointers sorts1[]=
 {
-    StandardSort, ShellSort, ShellSort2, RadixSort2, RadixSort10,BubbleSort
+    StandardSort, ShellSort, ShellSort2, RadixSort256, RadixSort1024,BubbleSort
 
 };
 array_pointers2 sorts2[]=
@@ -301,79 +301,120 @@ int Digits(unsigned int nrmax)
         nrmax/=10, ct++;
     return ct;
 }
-
-void RadixSort2(int n,unsigned int nrmax, vector <unsigned int> &v)
+void Print(int n,vector<unsigned int> v)
 {
-    fout<<"RadixSort2:\n";
-    try
-    {
-        vector <unsigned int> b[2]; //buckets
-        int poz;
-
-        int nr_iter=ceil(log2(nrmax));
-
-        for(int j=0; j<nr_iter; j++)
-        {
-            for(int i=0; i<n; i++)
-                if((v[i] & (1<<j)) ==0) //if the number "j" bit is 0
-                    b[0].push_back(v[i]);
-                else
-                    b[1].push_back(v[i]);
-
-            poz=0;
-            for(int nr_bucket=0; nr_bucket<2; nr_bucket++)
-            {
-                for(int k=0; k<b[nr_bucket].size(); k++)
-                    v[poz++]=b[nr_bucket][k]; //current element
-
-                //clear the buckets
-                b[nr_bucket].clear();
-
-            }
-
-        }
-    }
-    catch(...)
-    {
-        fout<<"This algorithm can't sort these numbers\n";
-    }
-
+    for(int i=0; i<n; i++)
+        cout<<v[i]<<" ";
+    cout<<"\n";
 
 }
-void RadixSort10(int n,unsigned int nrmax, vector <unsigned int> &v)
+
+double log_a_base_b(unsigned int a,int b)
 {
-    fout<<"RadixSort10:\n";
+    return (double)log(a)/log(b);
+}
+
+void RadixSort1024(int n,unsigned int nrmax, vector<unsigned int> &v)
+{
+    fout<<"RadixSort1024:\n";
     try
     {
-        vector <unsigned int> b[10]; //buckets
+        vector<unsigned int> b[1024];
+        int poz,rest;
         unsigned int pow=1;
 
-        int nr_iter=Digits(nrmax);
-        int poz;
+        int nr_iter=ceil(log_a_base_b(nrmax,1024));
 
         for(int j=0; j<nr_iter; j++)
         {
             for(int i=0; i<n; i++)
-                b[(v[i]/pow)%10].push_back(v[i]);
+            {
+                b[(v[i]/pow)%1024].push_back(v[i]);
+            }
+
 
             poz=0;
-            for(int nr_bucket=0; nr_bucket<10; nr_bucket++)
+            for(int nr_bucket=0; nr_bucket<1024; nr_bucket++)
             {
                 for(int k=0; k<b[nr_bucket].size(); k++)
-                    v[poz++]=b[nr_bucket][k]; //current element
+                    {v[poz++]=b[nr_bucket][k]; //current element
+                    //cout<<"bucket "<<nr_bucket<<" cu elem "<<b[nr_bucket][k]<<" ";
+                    }
+
+
 
                 //clear the buckets
                 b[nr_bucket].clear();
 
             }
-            pow*=10;
+            pow*=1024;
 
         }
+
+        for(int i=0;i<1024;i++)
+        {
+         b[i].clear();
+         b[i].shrink_to_fit();
+        }
+
+
     }
     catch(...)
     {
         fout<<"This algorithm can't sort these numbers\n";
     }
+
+}
+void RadixSort256(int n,unsigned int nrmax, vector<unsigned int> &v)
+{
+    fout<<"RadixSort256:\n";
+    try
+    {
+
+        vector<unsigned int> b[256];
+        int poz,rest;
+        unsigned int pow=1;
+
+        int nr_iter=ceil(log_a_base_b(nrmax,256));
+
+        for(int j=0; j<nr_iter; j++)
+        {
+            for(int i=0; i<n; i++)
+            {
+                b[(v[i]/pow)%256].push_back(v[i]);
+            }
+
+
+            poz=0;
+            for(int nr_bucket=0; nr_bucket<256; nr_bucket++)
+            {
+                for(int k=0; k<b[nr_bucket].size(); k++)
+                    v[poz++]=b[nr_bucket][k]; //current element
+
+
+
+                //clear the buckets
+                b[nr_bucket].clear();
+
+            }
+            pow*=256;
+
+        }
+
+        for(int i=0;i<256;i++)
+        {b[i].clear();
+        b[i].shrink_to_fit();
+        }
+
+
+
+    }
+    catch(...)
+    {
+        fout<<"This algorithm can't sort these numbers\n";
+    }
+
+
 
 }
 
@@ -388,26 +429,27 @@ void Sort(int n,unsigned int nrmax, vector <unsigned int> &v)
     auto stop = chrono::high_resolution_clock::now();
     fout<<"Sorted: YES\n";
     auto duration=chrono::duration_cast<chrono::milliseconds>(stop-start);
-        fout << "Elapsed time in milliseconds: "
-             << duration.count()<<" ms\n\n";
+    fout << "Elapsed time in milliseconds: "
+         << duration.count()<<" ms\n\n";
 
 
-    for (int i=1; i<6; i++)
+    for (int i=0; i<6; i++)
     {
         aux=v;
         auto start = chrono::high_resolution_clock::now();
         sorts1[i](n,nrmax,aux);
         auto stop = chrono::high_resolution_clock::now();
 
-        if(aux==sorted)///check if elements are the same
-            {fout<<"Sorted: YES\n";
-             auto duration=chrono::duration_cast<chrono::milliseconds>(stop-start);
-             fout << "Elapsed time in milliseconds: "
-                    << duration.count()<<" ms\n\n";
+        if(aux==sorted)///verify if elements are the same
+        {
+            fout<<"Sorted: YES\n";
+            auto duration=chrono::duration_cast<chrono::milliseconds>(stop-start);
+            fout << "Elapsed time in milliseconds: "
+                 << duration.count()<<" ms\n\n";
 
-            }
+        }
         else
-            fout<<"These numbers can't be sorted!\n\n";
+            fout<<"This algorithm can't sort these numbers!\n\n";
 
 
     }
@@ -422,7 +464,7 @@ void Sort(int n,unsigned int nrmax, vector <unsigned int> &v)
             if(nrmax<=5 && n>=90000)
             {
                 fout<<"These numbers can't be sorted!\n\n";
-                continue;
+                //continue;
             }
         }
         else
@@ -430,8 +472,8 @@ void Sort(int n,unsigned int nrmax, vector <unsigned int> &v)
             fout<<"QuickSort-random pivot:\n";
             if(nrmax<=5 && n>=90000)
             {
-                fout<<"These numbers can't be sorted!\n\n";
-                continue;
+                fout<<"This algorithm can't sort these numbers!\n\n";
+                //continue;
             }
 
         }
@@ -440,15 +482,16 @@ void Sort(int n,unsigned int nrmax, vector <unsigned int> &v)
         sorts2[i](0,n-1,aux);
         auto stop = chrono::high_resolution_clock::now();
 
-        if(aux==sorted) //check if elements are the same
-            {fout<<"Sorted: YES\n";
-             auto duration=chrono::duration_cast<chrono::milliseconds>(stop-start);
-             fout << "Elapsed time in milliseconds: "
-                    << duration.count()<<" ms\n\n";
+        if(aux==sorted) //verify if elements are the same
+        {
+            fout<<"Sorted: YES\n";
+            auto duration=chrono::duration_cast<chrono::milliseconds>(stop-start);
+            fout << "Elapsed time in milliseconds: "
+                 << duration.count()<<" ms\n\n";
 
-            }
+        }
         else
-            fout<<"These numbers can't be sorted!\n\n";
+            fout<<"This algorithm can't sort these numbers!\n\n";
     }
     aux.clear();
     aux.shrink_to_fit();
@@ -526,7 +569,6 @@ int main()
 
             fout<<"Sorting algorithms for n= "<<n<<" and nrmax= "<<nrmax<<":\n\n";
             Sort(n,nrmax,v);
-
 
             continue;
 
