@@ -15,7 +15,8 @@ Top fastest sorting algorithms for nrmax=10^6 and:
 
  Charts:  
  
-<img width="442" alt="chart1" src="https://user-images.githubusercontent.com/40547787/110667215-ba153780-81d2-11eb-9ae9-2c0333ec2a54.png">
+<img width="536" alt="chart1" src="https://user-images.githubusercontent.com/40547787/112316481-d1185700-8cb3-11eb-9fc1-c03fc5fea989.png">
+<img width="517" alt="sortariradix" src="https://user-images.githubusercontent.com/40547787/112316557-e2616380-8cb3-11eb-90dc-2c07aa92262a.png">
 <img width="429" alt="chart5" src="https://user-images.githubusercontent.com/40547787/110667222-baadce00-81d2-11eb-95cb-b960abbd482e.png">
 <img width="431" alt="chart6" src="https://user-images.githubusercontent.com/40547787/110667224-bb466480-81d2-11eb-89dd-954696629eb0.png">
 <img width="444" alt="chart3" src="https://user-images.githubusercontent.com/40547787/110667217-baadce00-81d2-11eb-949a-e58677eea9c1.png">
