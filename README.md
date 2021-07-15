@@ -1,9 +1,7 @@
-# Sorting_algorithms
-Sorting algorithms (code)  and their time complexity in C++
-
+# Sorting algorithms and their time complexity in C++, with code
 
 •	Standard in C++ (std::sort() known as IntroSort): O(nlogn);  
-•	RadixSort (with base 1024 or 256): O((n+b) * logb(k)), b=base, k=nrmax =>RadixSort1024 is faster in general terms, because of the base.
+•	RadixSort (with base 1024 or 256): O((n+b) * logb(k)), b=base, k=nrmax =>RadixSort1024 is faster in general terms, because of the base;   
 •	QuickSort: "Engineering a Sort Function"-> 1.386 n log n average comparisons using a randomized pivot and 1.188 n log n average comparisons using a median of 3 pivot. It has O(n^2) worst-case runtime (when the pivot is fixed and the numbers are already sorted);  
 •	BubbleSort: O(n^2) and O(n) for already sorted numbers;  
 •	MergeSort: O(nlogn) but is slower than QuickSort in general terms.  
