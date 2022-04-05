@@ -30,6 +30,7 @@ array_pointers sorts1[]=
     StandardSort, ShellSort, ShellSort2, RadixSort256, RadixSort1024,BubbleSort
 
 };
+
 array_pointers2 sorts2[]=
 {
     MergeSort, QuickSort_Random, QuickSort_MedianOf3
@@ -67,15 +68,14 @@ void BubbleSort(int n, unsigned int nrmax, vector <unsigned int> &v)
                     swap(v[i], v[i+1]);
                     ok=0;
                 }
-
         }
     }
     catch(...)
     {
         fout<<"This algorithm can't sort these numbers\n";
     }
-
 }
+
 int PivotRandom(int left, int right,vector <unsigned int> &v)
 {
     int piv=left,i,index;
@@ -84,8 +84,8 @@ int PivotRandom(int left, int right,vector <unsigned int> &v)
     swap(v[left],v[piv]);   //move the pivot first
 
     piv=left;
-
     index=left+1;
+    
     for(i=left+1; i<=right; i++)
     {
         if(v[i]<v[piv])
@@ -99,9 +99,8 @@ int PivotRandom(int left, int right,vector <unsigned int> &v)
 
     //return sorted position of pivot
     return index-1;
-
-
 }
+
 int PivotMedian3(int left, int right,vector <unsigned int> &v)
 {
     int piv=left,l=left,r=right,m,index;
@@ -127,11 +126,11 @@ int PivotMedian3(int left, int right,vector <unsigned int> &v)
         }
     }
     swap(v[piv],v[index-1]);
+    
     //return sorted position of pivot
-
     return index-1;
-
 }
+
 void QuickSort_Random(int left,int right, vector <unsigned int> &v)
 {
     try
@@ -141,7 +140,6 @@ void QuickSort_Random(int left,int right, vector <unsigned int> &v)
             int p=PivotRandom(left,right,v);
             QuickSort_Random(left,p-1,v);
             QuickSort_Random(p+1,right,v);
-
         }
     }
     catch(...)
@@ -149,6 +147,7 @@ void QuickSort_Random(int left,int right, vector <unsigned int> &v)
         fout<<"This algorithm can't sort these numbers\n";
     }
 }
+
 void QuickSort_MedianOf3(int left,int right, vector <unsigned int> &v)
 {
     try
@@ -158,7 +157,6 @@ void QuickSort_MedianOf3(int left,int right, vector <unsigned int> &v)
             int p=PivotMedian3(left,right,v);
             QuickSort_MedianOf3(left,p-1,v);
             QuickSort_MedianOf3(p+1,right,v);
-
         }
     }
     catch(...)
@@ -180,8 +178,8 @@ void GenerateRandom(int n,unsigned int nrmax, vector <unsigned int> &v)
             v.push_back(number);
         }
     }
-
 }
+
 void GenerateSorted(int n,unsigned int nrmax,  vector <unsigned int> &v)
 {
 
@@ -199,9 +197,8 @@ void GenerateSorted(int n,unsigned int nrmax,  vector <unsigned int> &v)
     else
         for(i=nrmax-n+1; i<=nrmax; i++)
             v.push_back(i);
-
-
 }
+
 void ShellSort(int n, unsigned int nrmax, vector <unsigned int> &v)
 {
     ///with gap reduced by half in every iteration
@@ -226,6 +223,7 @@ void ShellSort(int n, unsigned int nrmax, vector <unsigned int> &v)
         fout<<"This algorithm can't sort these numbers\n";
     }
 }
+
 void ShellSort2(int n, unsigned int nrmax, vector <unsigned int> &v)
 {
     ///with gap calculated with the formula 2*[N/2^(2k+1)]+1
@@ -253,6 +251,7 @@ void ShellSort2(int n, unsigned int nrmax, vector <unsigned int> &v)
         fout<<"This algorithm can't sort these numbers\n";
     }
 }
+
 void Merging(int l, int m, int r, vector <unsigned int> &v)
 {
     int i,j,k;
@@ -273,7 +272,6 @@ void Merging(int l, int m, int r, vector <unsigned int> &v)
     //move the elements in the initial vector
     for(k=0,i=l; i<=r; i++,k++)
         v[i]=aux[k];
-
 }
 
 void MergeSort(int left, int right, vector <unsigned int> &v)
@@ -301,12 +299,12 @@ int Digits(unsigned int nrmax)
         nrmax/=10, ct++;
     return ct;
 }
+
 void Print(int n,vector<unsigned int> v)
 {
     for(int i=0; i<n; i++)
         cout<<v[i]<<" ";
     cout<<"\n";
-
 }
 
 double log_a_base_b(unsigned int a,int b)
@@ -331,8 +329,6 @@ void RadixSort1024(int n,unsigned int nrmax, vector<unsigned int> &v)
             {
                 b[(v[i]/pow)%1024].push_back(v[i]);
             }
-
-
             poz=0;
             for(int nr_bucket=0; nr_bucket<1024; nr_bucket++)
             {
@@ -340,37 +336,28 @@ void RadixSort1024(int n,unsigned int nrmax, vector<unsigned int> &v)
                     {v[poz++]=b[nr_bucket][k]; //current element
                     //cout<<"bucket "<<nr_bucket<<" cu elem "<<b[nr_bucket][k]<<" ";
                     }
-
-
-
                 //clear the buckets
                 b[nr_bucket].clear();
-
             }
             pow*=1024;
-
         }
-
         for(int i=0;i<1024;i++)
         {
          b[i].clear();
          b[i].shrink_to_fit();
         }
-
-
     }
     catch(...)
     {
         fout<<"This algorithm can't sort these numbers\n";
     }
-
 }
+
 void RadixSort256(int n,unsigned int nrmax, vector<unsigned int> &v)
 {
     fout<<"RadixSort256:\n";
     try
     {
-
         vector<unsigned int> b[256];
         int poz,rest;
         unsigned int pow=1;
@@ -383,39 +370,26 @@ void RadixSort256(int n,unsigned int nrmax, vector<unsigned int> &v)
             {
                 b[(v[i]/pow)%256].push_back(v[i]);
             }
-
-
             poz=0;
             for(int nr_bucket=0; nr_bucket<256; nr_bucket++)
             {
                 for(int k=0; k<b[nr_bucket].size(); k++)
                     v[poz++]=b[nr_bucket][k]; //current element
-
-
-
                 //clear the buckets
                 b[nr_bucket].clear();
 
             }
             pow*=256;
-
         }
-
         for(int i=0;i<256;i++)
         {b[i].clear();
         b[i].shrink_to_fit();
         }
-
-
-
     }
     catch(...)
     {
         fout<<"This algorithm can't sort these numbers\n";
     }
-
-
-
 }
 
 void Sort(int n,unsigned int nrmax, vector <unsigned int> &v)
@@ -432,7 +406,6 @@ void Sort(int n,unsigned int nrmax, vector <unsigned int> &v)
     fout << "Elapsed time in milliseconds: "
          << duration.count()<<" ms\n\n";
 
-
     for (int i=0; i<6; i++)
     {
         aux=v;
@@ -446,12 +419,9 @@ void Sort(int n,unsigned int nrmax, vector <unsigned int> &v)
             auto duration=chrono::duration_cast<chrono::milliseconds>(stop-start);
             fout << "Elapsed time in milliseconds: "
                  << duration.count()<<" ms\n\n";
-
         }
         else
             fout<<"This algorithm can't sort these numbers!\n\n";
-
-
     }
     //for MergeSort and QuickSortRandom and QuickSort_MedianOf3
     for(int i=0; i<3; i++)
@@ -475,7 +445,6 @@ void Sort(int n,unsigned int nrmax, vector <unsigned int> &v)
                 fout<<"This algorithm can't sort these numbers!\n\n";
                 //continue;
             }
-
         }
 
         auto start = chrono::high_resolution_clock::now();
@@ -488,7 +457,6 @@ void Sort(int n,unsigned int nrmax, vector <unsigned int> &v)
             auto duration=chrono::duration_cast<chrono::milliseconds>(stop-start);
             fout << "Elapsed time in milliseconds: "
                  << duration.count()<<" ms\n\n";
-
         }
         else
             fout<<"This algorithm can't sort these numbers!\n\n";
@@ -498,8 +466,8 @@ void Sort(int n,unsigned int nrmax, vector <unsigned int> &v)
 
     sorted.clear();
     sorted.shrink_to_fit();
-
 }
+
 bool VerifyInput(char a[], char b[])
 {
     if(strlen(a)>10) return 0;
@@ -518,9 +486,8 @@ bool VerifyInput(char a[], char b[])
     if(B>=4294967295) return 0;
 
     return 1;
-
-
 }
+
 void Transfer(char a[], char b[], int &n, unsigned int &nrmax)
 {
     int A=0;
@@ -534,6 +501,7 @@ void Transfer(char a[], char b[], int &n, unsigned int &nrmax)
 
     nrmax=B;
 }
+
 int main()
 {
     vector <unsigned int> v;
@@ -546,7 +514,6 @@ int main()
     for(int i=1; i<=t; i++)
     {
         fout<<"Test "<<i<<"\n";
-
         try
         {
             fin>>inputN>>inputNRMAX;
@@ -571,19 +538,14 @@ int main()
             Sort(n,nrmax,v);
 
             continue;
-
         }
         catch(...)
         {
-
             v.clear();
             v.shrink_to_fit();
             fout<<"These numbers can't be sorted!\n";
             continue;
-
         }
-
     }
-
     return 0;
 }
